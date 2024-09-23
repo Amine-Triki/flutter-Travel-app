@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travel_app/screens/categories_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import './screens/tabs_screen.dart';
 import './screens/trip_detail_screen.dart';

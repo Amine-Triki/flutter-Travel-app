@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Favorites_screen.dart';
+import 'favorites_screen.dart';
 import 'categories_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -18,17 +18,23 @@ class _TabsScreenState extends State<TabsScreen> {
 
   int _selectedScreenIndex = 0;
 
-  final List<Widget> _screens = [
-    const CategoriesScreen(),
-    const FavoritesScreen(),
+  final List<Map<String, Object>> _screens = [
+    {
+      'Screen': const CategoriesScreen(),
+      'Title': 'تصنيفات الرحلات',
+    },
+    {
+      'Screen': const FavoritesScreen(),
+      'Title': ' الرحلات المفضلة ',
+    },
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(' دليل السياحي'),
+        title: Text(_screens[_selectedScreenIndex]['Title'] as String),
       ),
-      body: _screens[_selectedScreenIndex],
+      body: _screens[_selectedScreenIndex]['Screen'] as Widget,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectScreen,
         backgroundColor: Theme.of(context).primaryColor,
