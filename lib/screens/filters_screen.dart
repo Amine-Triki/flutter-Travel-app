@@ -2,18 +2,28 @@ import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
-
   static const screenRoute = '/filters';
+
+  final Function saveFilters;
+  final Map<String, bool> currentFilters;
+  const FiltersScreen(this.currentFilters, this.saveFilters, {super.key});
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _isInSommer = false;
-  var _isInWinter = false;
-  var _isForFamily = false;
+  var _summer = false;
+  var _winter = false;
+  var _family = false;
+
+  @override
+  initState() {
+    _summer = widget.currentFilters['summer']!;
+    _winter = widget.currentFilters['winter']!;
+    _family = widget.currentFilters['family']!;
+    super.initState();
+  }
 
   SwitchListTile buildSwitchListTile(String title, String subtitle,
       bool currentValue, ValueChanged<bool> updateValue) {
@@ -40,6 +50,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('الفلترة'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              final selectedFilters = {
+                'summer': _summer,
+                'winter': _winter,
+                'family': _family,
+              };
+              widget.saveFilters(selectedFilters);
+            },
+          )
+        ],
       ),
       drawer: const AppDrawer(),
       body: Column(
@@ -51,23 +74,21 @@ class _FiltersScreenState extends State<FiltersScreen> {
             child: ListView(
               children: [
                 buildSwitchListTile(' فقط الرحلات الصيفية',
-                    'إظهار الرحلات في فصل الصيف فقط', _isInSommer, (newValue) {
+                    'إظهار الرحلات في فصل الصيف فقط', _summer, (newValue) {
                   setState(() {
-                    _isInSommer = newValue;
+                    _summer = newValue;
                   });
                 }),
                 buildSwitchListTile(' فقط الرحلات الشتوية',
-                    'إظهار الرحلات في فصل الشتاء فقط', _isInWinter, (newValue) {
+                    'إظهار الرحلات في فصل الشتاء فقط', _winter, (newValue) {
                   setState(() {
-                    _isInWinter = newValue;
+                    _winter = newValue;
                   });
                 }),
-                buildSwitchListTile(
-                    ' فقط الرحلات للعائلات',
-                    'إظهار الرحلات التي  للعائلات فقط',
-                    _isForFamily, (newValue) {
+                buildSwitchListTile(' فقط الرحلات للعائلات',
+                    'إظهار الرحلات التي  للعائلات فقط', _family, (newValue) {
                   setState(() {
-                    _isForFamily = newValue;
+                    _family = newValue;
                   });
                 }),
               ],

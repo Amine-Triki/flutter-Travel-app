@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/trip.dart';
 import '../widgets/trip_item.dart';
-import '../app_data.dart';
 
 class CategoryTripsScreen extends StatefulWidget {
   static const screenRoute = '/categoty-trips';
-  const CategoryTripsScreen({super.key});
+
+  final List<Trip> availableTrips;
+
+  const CategoryTripsScreen(this.availableTrips, {super.key});
 
   @override
   State<CategoryTripsScreen> createState() => _CategoryTripsScreenState();
@@ -22,7 +24,7 @@ class _CategoryTripsScreenState extends State<CategoryTripsScreen> {
           ModalRoute.of(context)?.settings.arguments as Map<String, String>;
       final categoryId = routeArgument['id'];
       categoryTitle = routeArgument['title']!;
-      displayTrips = Trips_data.where((trip) {
+      displayTrips = widget.availableTrips.where((trip) {
         return trip.categories.contains(categoryId);
       }).toList();
       _isInit = true;
