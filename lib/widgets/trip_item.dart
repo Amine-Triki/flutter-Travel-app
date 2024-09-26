@@ -9,6 +9,7 @@ class TripItem extends StatelessWidget {
   final int duration;
   final TripType tripeType;
   final Season season;
+  final Function removeItem;
 
   const TripItem({
     super.key,
@@ -18,6 +19,7 @@ class TripItem extends StatelessWidget {
     required this.duration,
     required this.tripeType,
     required this.season,
+    required this.removeItem,
   });
 
   String get seasonText {
@@ -51,10 +53,16 @@ class TripItem extends StatelessWidget {
   }
 
   void selectTrip(BuildContext context) {
-    Navigator.of(context).pushNamed(
+    Navigator.of(context)
+        .pushNamed(
       TripDetailScreen.screenRoute,
       arguments: id,
-    );
+    )
+        .then((result) {
+      if (result != null) {
+        removeItem(result);
+      }
+    });
   }
 
   @override
