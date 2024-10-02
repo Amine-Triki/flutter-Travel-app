@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:travel_app/app_data.dart';
 
 class TripDetailScreen extends StatelessWidget {
-  const TripDetailScreen({super.key});
+  const TripDetailScreen(this.manageFavorite, this.isFavorite, {super.key});
 
   static const screenRoute = '/trip-detail';
+  final Function(String) manageFavorite;
+  final Function(String) isFavorite;
   Widget buildSectionTitle(BuildContext context, String titleText) {
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -99,10 +101,8 @@ class TripDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.delete),
-        onPressed: () {
-          Navigator.of(context).pop(tripId);
-        },
+        onPressed: () => manageFavorite(tripId),
+        child: Icon(isFavorite(tripId) ? Icons.star : Icons.star_border),
       ),
     );
   }
